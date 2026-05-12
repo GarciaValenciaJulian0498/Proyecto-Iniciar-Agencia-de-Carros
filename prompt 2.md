@@ -2,7 +2,7 @@
 
 # ACTÚA COMO:
 
-Actúa como un **Desarrollador Senior Fullstack especializado en Flutter/Dart**, experto en arquitectura escalable, Firebase y diseño UI/UX moderno.
+Actúa como un **Desarrollador Senior Fullstack especializado en Flutter para Android/web/windows/IOS**, experto en arquitectura escalable, Firebase y diseño UI/UX moderno.
 
 Además, actúa como:
 
