@@ -521,745 +521,523 @@ La app ya tendrá:
 ✅ Diseño minimalista elegante
 
 ---
-# FASE 2 — Models y Services 🚗🔥
+Perfecto. Aquí tienes el **FASE 2 completa (MODELS Y SERVICES)** ya integrada con:
+
+* ✔ Modelado de datos (las tablas que pediste)
+* ✔ Modelos Dart completos
+* ✔ Servicios Firebase (Firestore + Auth + Storage)
+* ✔ Arquitectura profesional con Provider
+* ✔ Código listo para copiar y pegar
+* ✔ Explicación clara de cada parte
+
+---
+
+# 🧠 FASE 2 — MODELS Y SERVICES
 
 ## AutoElite App
 
-En esta fase construiremos toda la lógica profesional del proyecto:
+En esta fase construimos el **corazón de la aplicación**:
 
-✅ Modelos de datos
-✅ Firebase Services
-✅ CRUD Firestore
-✅ Provider State Management
-✅ Arquitectura escalable
-✅ Conversión fromMap/toMap
-✅ Manejo de errores
-✅ Null Safety
+👉 La estructura de datos
+👉 La conexión con Firebase
+👉 Los modelos del sistema
+👉 El CRUD base
 
 ---
 
-# Objetivo de Esta Fase
-
-Crear toda la base lógica para:
-
-* Usuarios
-* Autos
-* Favoritos
-* Citas
-* Firebase Authentication
-* Firestore
-* Estado global con Provider
-
----
-
-# Estructura de Archivos
-
-## 📁 models/
-
-Crear:
-
-```plaintext
-models/
-│
-├── user_model.dart
-├── car_model.dart
-└── appointment_model.dart
-```
-
----
-
-## 📁 services/
-
-Crear:
-
-```plaintext
-services/
-│
-├── auth_service.dart
-├── firestore_service.dart
-└── storage_service.dart
-```
-
----
-
-## 📁 providers/
-
-Crear:
-
-```plaintext
-providers/
-│
-├── auth_provider.dart
-└── car_provider.dart
-```
-
----
-
-# 1. UserModel
-
-## 📄 lib/models/user_model.dart
-
-```dart
-class UserModel {
-  final String uid;
-  final String name;
-  final String email;
-  final String role;
-
-  UserModel({
-    required this.uid,
-    required this.name,
-    required this.email,
-    required this.role,
-  });
-
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      uid: map['uid'] ?? '',
-      name: map['name'] ?? '',
-      email: map['email'] ?? '',
-      role: map['role'] ?? 'user',
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'uid': uid,
-      'name': name,
-      'email': email,
-      'role': role,
-    };
-  }
-}
-```
-
----
-
-# Explicación
-
-## ¿Qué hace?
-
-Representa un usuario dentro de Firestore.
-
----
-
-## ¿Qué guarda?
-
-| Campo | Descripción    |
-| ----- | -------------- |
-| uid   | ID del usuario |
-| name  | Nombre         |
-| email | Correo         |
-| role  | user/admin     |
-
----
-
-# 2. CarModel
-
-## 📄 lib/models/car_model.dart
-
-```dart
-class CarModel {
-  final String id;
-  final String brand;
-  final String model;
-  final double price;
-  final int year;
-  final int mileage;
-  final String transmission;
-  final String fuelType;
-  final String description;
-  final List<String> images;
-  final bool isAvailable;
-
-  CarModel({
-    required this.id,
-    required this.brand,
-    required this.model,
-    required this.price,
-    required this.year,
-    required this.mileage,
-    required this.transmission,
-    required this.fuelType,
-    required this.description,
-    required this.images,
-    required this.isAvailable,
-  });
-
-  factory CarModel.fromMap(Map<String, dynamic> map) {
-    return CarModel(
-      id: map['id'] ?? '',
-      brand: map['brand'] ?? '',
-      model: map['model'] ?? '',
-      price: (map['price'] ?? 0).toDouble(),
-      year: map['year'] ?? 0,
-      mileage: map['mileage'] ?? 0,
-      transmission: map['transmission'] ?? '',
-      fuelType: map['fuelType'] ?? '',
-      description: map['description'] ?? '',
-      images: List<String>.from(map['images'] ?? []),
-      isAvailable: map['isAvailable'] ?? true,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'brand': brand,
-      'model': model,
-      'price': price,
-      'year': year,
-      'mileage': mileage,
-      'transmission': transmission,
-      'fuelType': fuelType,
-      'description': description,
-      'images': images,
-      'isAvailable': isAvailable,
-    };
-  }
-}
-```
-
----
-
-# 3. AppointmentModel
-
-## 📄 lib/models/appointment_model.dart
-
-```dart
-class AppointmentModel {
-  final String id;
-  final String userId;
-  final String carId;
-  final String date;
-  final String status;
-
-  AppointmentModel({
-    required this.id,
-    required this.userId,
-    required this.carId,
-    required this.date,
-    required this.status,
-  });
-
-  factory AppointmentModel.fromMap(
-    Map<String, dynamic> map,
-  ) {
-    return AppointmentModel(
-      id: map['id'] ?? '',
-      userId: map['userId'] ?? '',
-      carId: map['carId'] ?? '',
-      date: map['date'] ?? '',
-      status: map['status'] ?? 'pending',
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'userId': userId,
-      'carId': carId,
-      'date': date,
-      'status': status,
-    };
-  }
-}
-```
-
----
-
-# 4. AuthService
-
-## 📄 lib/services/auth_service.dart
-
-```dart
-import 'package:firebase_auth/firebase_auth.dart';
-
-class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  User? get currentUser => _auth.currentUser;
-
-  Stream<User?> get authStateChanges =>
-      _auth.authStateChanges();
-
-  // REGISTER
-  Future<UserCredential> register({
-    required String email,
-    required String password,
-  }) async {
-    return await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-
-  // LOGIN
-  Future<UserCredential> login({
-    required String email,
-    required String password,
-  }) async {
-    return await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-
-  // LOGOUT
-  Future<void> logout() async {
-    await _auth.signOut();
-  }
-
-  // RESET PASSWORD
-  Future<void> resetPassword(
-    String email,
-  ) async {
-    await _auth.sendPasswordResetEmail(
-      email: email,
-    );
-  }
-}
-```
-
----
-
-# Explicación
-
-## Este servicio maneja:
-
-✅ Login
-✅ Registro
-✅ Logout
-✅ Recuperación de contraseña
-✅ Sesión actual
-
----
-
-# 5. FirestoreService
-
-## 📄 lib/services/firestore_service.dart
-
-```dart
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../models/car_model.dart';
-import '../models/user_model.dart';
-
-class FirestoreService {
-  final FirebaseFirestore _firestore =
-      FirebaseFirestore.instance;
-
-  // USERS COLLECTION
-  final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection(
-    'users',
-  );
-
-  // CARS COLLECTION
-  final CollectionReference carsCollection =
-      FirebaseFirestore.instance.collection(
-    'cars',
-  );
-
-  // CREATE USER
-  Future<void> createUser(
-    UserModel user,
-  ) async {
-    await usersCollection.doc(user.uid).set(
-          user.toMap(),
-        );
-  }
-
-  // GET USER
-  Future<UserModel> getUser(
-    String uid,
-  ) async {
-    final doc =
-        await usersCollection.doc(uid).get();
-
-    return UserModel.fromMap(
-      doc.data() as Map<String, dynamic>,
-    );
-  }
-
-  // ADD CAR
-  Future<void> addCar(
-    CarModel car,
-  ) async {
-    await carsCollection.doc(car.id).set(
-          car.toMap(),
-        );
-  }
-
-  // UPDATE CAR
-  Future<void> updateCar(
-    CarModel car,
-  ) async {
-    await carsCollection.doc(car.id).update(
-          car.toMap(),
-        );
-  }
-
-  // DELETE CAR
-  Future<void> deleteCar(
-    String carId,
-  ) async {
-    await carsCollection.doc(carId).delete();
-  }
-
-  // GET CARS STREAM
-  Stream<List<CarModel>> getCars() {
-    return carsCollection.snapshots().map(
-      (snapshot) {
-        return snapshot.docs.map((doc) {
-          return CarModel.fromMap(
-            doc.data()
-                as Map<String, dynamic>,
-          );
-        }).toList();
-      },
-    );
-  }
-}
-```
-
----
-
-# 6. StorageService
-
-## 📄 lib/services/storage_service.dart
-
-```dart
-import 'dart:io';
-
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:uuid/uuid.dart';
-
-class StorageService {
-  final FirebaseStorage _storage =
-      FirebaseStorage.instance;
-
-  Future<String> uploadImage(
-    File image,
-  ) async {
-    String fileName = const Uuid().v4();
-
-    Reference ref = _storage
-        .ref()
-        .child('car_images/$fileName.jpg');
-
-    UploadTask uploadTask = ref.putFile(image);
-
-    TaskSnapshot snapshot =
-        await uploadTask;
-
-    return await snapshot.ref.getDownloadURL();
-  }
-}
-```
-
----
-
-# 7. AuthProvider
-
-## 📄 lib/providers/auth_provider.dart
-
-```dart
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import '../services/auth_service.dart';
-
-class AuthProvider extends ChangeNotifier {
-  final AuthService _authService =
-      AuthService();
-
-  User? user;
-
-  bool isLoading = false;
-
-  // LOGIN
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      isLoading = true;
-
-      notifyListeners();
-
-      final result =
-          await _authService.login(
-        email: email,
-        password: password,
-      );
-
-      user = result.user;
-    } catch (e) {
-      rethrow;
-    } finally {
-      isLoading = false;
-
-      notifyListeners();
-    }
-  }
-
-  // REGISTER
-  Future<void> register({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      isLoading = true;
-
-      notifyListeners();
-
-      final result =
-          await _authService.register(
-        email: email,
-        password: password,
-      );
-
-      user = result.user;
-    } catch (e) {
-      rethrow;
-    } finally {
-      isLoading = false;
-
-      notifyListeners();
-    }
-  }
-
-  // LOGOUT
-  Future<void> logout() async {
-    await _authService.logout();
-
-    user = null;
-
-    notifyListeners();
-  }
-}
-```
-
----
-
-# 8. CarProvider
-
-## 📄 lib/providers/car_provider.dart
-
-```dart
-import 'package:flutter/material.dart';
-
-import '../models/car_model.dart';
-import '../services/firestore_service.dart';
-
-class CarProvider extends ChangeNotifier {
-  final FirestoreService _firestoreService =
-      FirestoreService();
-
-  List<CarModel> cars = [];
-
-  bool isLoading = false;
-
-  Stream<List<CarModel>> getCars() {
-    return _firestoreService.getCars();
-  }
-
-  Future<void> addCar(
-    CarModel car,
-  ) async {
-    await _firestoreService.addCar(car);
-
-    notifyListeners();
-  }
-
-  Future<void> updateCar(
-    CarModel car,
-  ) async {
-    await _firestoreService.updateCar(car);
-
-    notifyListeners();
-  }
-
-  Future<void> deleteCar(
-    String carId,
-  ) async {
-    await _firestoreService.deleteCar(
-      carId,
-    );
-
-    notifyListeners();
-  }
-}
-```
-
----
-
-# 9. Configurar Providers en main.dart
-
-## 📄 lib/main.dart
-
-Reemplaza por:
-
-```dart
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
-
-import 'firebase_options.dart';
-
-import 'providers/auth_provider.dart';
-import 'providers/car_provider.dart';
-
-import 'themes/app_theme.dart';
-
-import 'screens/auth/splash_screen.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  runApp(const AutoEliteApp());
-}
-
-class AutoEliteApp extends StatelessWidget {
-  const AutoEliteApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => AuthProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => CarProvider(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'AutoElite App',
-        theme: AppTheme.lightTheme,
-        home: const SplashScreen(),
-      ),
-    );
-  }
-}
-```
-
----
-
-# 10. Crear Colecciones Firestore
-
-Ir a:
-
-[Cloud Firestore Console](https://console.firebase.google.com?utm_source=chatgpt.com)
-
-Crear:
-
-```plaintext
+# 🗄️ 1. MODELO DE BASE DE DATOS (FIRESTORE)
+
+## 📌 Colecciones del sistema
+
+```plaintext id="db1"
+autos
+marcas
+empleados
+ventas
+pruebasManejo
 users
-cars
-appointments
 favorites
 ```
 
 ---
 
-# 11. Estructura Firestore
+# 📊 TABLAS (MODELO COMPLETO)
 
-## users
+## 🚗 Autos
 
-```plaintext
-users/
-   uid/
-      name
-      email
-      role
+| Campo            | Tipo         |
+| ---------------- | ------------ |
+| id               | String       |
+| marcaId          | String       |
+| modelo           | String       |
+| precio           | double       |
+| año              | int          |
+| kilometraje      | int          |
+| transmision      | String       |
+| combustible      | String       |
+| descripcion      | String       |
+| imagenes         | List<String> |
+| disponible       | bool         |
+| fechaPublicacion | DateTime     |
+
+---
+
+## 🏷️ Marcas
+
+| Campo       | Tipo   |
+| ----------- | ------ |
+| id          | String |
+| nombreMarca | String |
+| logo        | String |
+| paisOrigen  | String |
+
+---
+
+## 👨‍💼 Empleados
+
+| Campo         | Tipo     |
+| ------------- | -------- |
+| id            | String   |
+| nombre        | String   |
+| correo        | String   |
+| telefono      | String   |
+| rol           | String   |
+| fechaRegistro | DateTime |
+
+---
+
+## 💰 Ventas
+
+| Campo       | Tipo     |
+| ----------- | -------- |
+| id          | String   |
+| autoId      | String   |
+| clienteId   | String   |
+| empleadoId  | String   |
+| precioVenta | double   |
+| fechaVenta  | DateTime |
+| metodoPago  | String   |
+
+---
+
+## 🧪 Pruebas de Manejo
+
+| Campo     | Tipo     |
+| --------- | -------- |
+| id        | String   |
+| autoId    | String   |
+| usuarioId | String   |
+| fecha     | DateTime |
+| hora      | String   |
+| estado    | String   |
+
+---
+
+## 👤 Usuarios
+
+| Campo         | Tipo     |
+| ------------- | -------- |
+| id            | String   |
+| nombre        | String   |
+| correo        | String   |
+| rol           | String   |
+| fechaRegistro | DateTime |
+
+---
+
+## ❤️ Favoritos
+
+| Campo  | Tipo     |
+| ------ | -------- |
+| id     | String   |
+| userId | String   |
+| autoId | String   |
+| fecha  | DateTime |
+
+---
+
+# 📁 2. MODELOS DART
+
+---
+
+## 🚗 car_model.dart
+
+```dart id="m1"
+class CarModel {
+  final String id;
+  final String marcaId;
+  final String modelo;
+  final double precio;
+  final int año;
+  final int kilometraje;
+  final String transmision;
+  final String combustible;
+  final String descripcion;
+  final List<String> imagenes;
+  final bool disponible;
+  final DateTime fechaPublicacion;
+
+  CarModel({
+    required this.id,
+    required this.marcaId,
+    required this.modelo,
+    required this.precio,
+    required this.año,
+    required this.kilometraje,
+    required this.transmision,
+    required this.combustible,
+    required this.descripcion,
+    required this.imagenes,
+    required this.disponible,
+    required this.fechaPublicacion,
+  });
+
+  factory CarModel.fromMap(Map<String, dynamic> map, String id) {
+    return CarModel(
+      id: id,
+      marcaId: map['marcaId'],
+      modelo: map['modelo'],
+      precio: map['precio'].toDouble(),
+      año: map['año'],
+      kilometraje: map['kilometraje'],
+      transmision: map['transmision'],
+      combustible: map['combustible'],
+      descripcion: map['descripcion'],
+      imagenes: List<String>.from(map['imagenes']),
+      disponible: map['disponible'],
+      fechaPublicacion: map['fechaPublicacion'].toDate(),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'marcaId': marcaId,
+      'modelo': modelo,
+      'precio': precio,
+      'año': año,
+      'kilometraje': kilometraje,
+      'transmision': transmision,
+      'combustible': combustible,
+      'descripcion': descripcion,
+      'imagenes': imagenes,
+      'disponible': disponible,
+      'fechaPublicacion': fechaPublicacion,
+    };
+  }
+}
 ```
 
 ---
 
-## cars
+## 🏷️ brand_model.dart
 
-```plaintext
-cars/
-   carId/
-      brand
-      model
-      price
-      year
-      mileage
-      transmission
-      fuelType
-      description
-      images
-      isAvailable
+```dart id="m2"
+class BrandModel {
+  final String id;
+  final String nombreMarca;
+  final String logo;
+  final String paisOrigen;
+
+  BrandModel({
+    required this.id,
+    required this.nombreMarca,
+    required this.logo,
+    required this.paisOrigen,
+  });
+
+  factory BrandModel.fromMap(Map<String, dynamic> map, String id) {
+    return BrandModel(
+      id: id,
+      nombreMarca: map['nombreMarca'],
+      logo: map['logo'],
+      paisOrigen: map['paisOrigen'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'nombreMarca': nombreMarca,
+      'logo': logo,
+      'paisOrigen': paisOrigen,
+    };
+  }
+}
 ```
 
 ---
 
-## appointments
+## 👤 user_model.dart
 
-```plaintext
-appointments/
-   appointmentId/
-      userId
-      carId
-      date
-      status
+```dart id="m3"
+class UserModel {
+  final String id;
+  final String nombre;
+  final String correo;
+  final String rol;
+  final DateTime fechaRegistro;
+
+  UserModel({
+    required this.id,
+    required this.nombre,
+    required this.correo,
+    required this.rol,
+    required this.fechaRegistro,
+  });
+
+  factory UserModel.fromMap(Map<String, dynamic> map, String id) {
+    return UserModel(
+      id: id,
+      nombre: map['nombre'],
+      correo: map['correo'],
+      rol: map['rol'],
+      fechaRegistro: map['fechaRegistro'].toDate(),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'nombre': nombre,
+      'correo': correo,
+      'rol': rol,
+      'fechaRegistro': fechaRegistro,
+    };
+  }
+}
 ```
 
 ---
 
-# 12. Buenas Prácticas Implementadas
+## 💰 sale_model.dart
 
-## ✅ Modelos Tipados
+```dart id="m4"
+class SaleModel {
+  final String id;
+  final String autoId;
+  final String clienteId;
+  final String empleadoId;
+  final double precioVenta;
+  final DateTime fechaVenta;
+  final String metodoPago;
 
-Mayor seguridad y escalabilidad.
+  SaleModel({
+    required this.id,
+    required this.autoId,
+    required this.clienteId,
+    required this.empleadoId,
+    required this.precioVenta,
+    required this.fechaVenta,
+    required this.metodoPago,
+  });
+
+  factory SaleModel.fromMap(Map<String, dynamic> map, String id) {
+    return SaleModel(
+      id: id,
+      autoId: map['autoId'],
+      clienteId: map['clienteId'],
+      empleadoId: map['empleadoId'],
+      precioVenta: map['precioVenta'].toDouble(),
+      fechaVenta: map['fechaVenta'].toDate(),
+      metodoPago: map['metodoPago'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'autoId': autoId,
+      'clienteId': clienteId,
+      'empleadoId': empleadoId,
+      'precioVenta': precioVenta,
+      'fechaVenta': fechaVenta,
+      'metodoPago': metodoPago,
+    };
+  }
+}
+```
 
 ---
 
-## ✅ Provider Pattern
+## 🧪 appointment_model.dart
 
-Separación lógica/UI.
+```dart id="m5"
+class AppointmentModel {
+  final String id;
+  final String autoId;
+  final String usuarioId;
+  final DateTime fecha;
+  final String hora;
+  final String estado;
+
+  AppointmentModel({
+    required this.id,
+    required this.autoId,
+    required this.usuarioId,
+    required this.fecha,
+    required this.hora,
+    required this.estado,
+  });
+
+  factory AppointmentModel.fromMap(Map<String, dynamic> map, String id) {
+    return AppointmentModel(
+      id: id,
+      autoId: map['autoId'],
+      usuarioId: map['usuarioId'],
+      fecha: map['fecha'].toDate(),
+      hora: map['hora'],
+      estado: map['estado'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'autoId': autoId,
+      'usuarioId': usuarioId,
+      'fecha': fecha,
+      'hora': hora,
+      'estado': estado,
+    };
+  }
+}
+```
 
 ---
 
-## ✅ Firebase Modular
+# 🔥 3. FIREBASE SERVICE (CRUD CENTRAL)
 
-Cada servicio tiene responsabilidad única.
+## 📄 firestore_service.dart
+
+```dart id="s1"
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class FirestoreService {
+  final FirebaseFirestore _db =
+      FirebaseFirestore.instance;
+
+  // 🔹 AUTOS
+  Stream<List<CarModel>> getCars() {
+    return _db.collection('autos').snapshots().map(
+      (snapshot) => snapshot.docs
+          .map((doc) => CarModel.fromMap(
+              doc.data(), doc.id))
+          .toList(),
+    );
+  }
+
+  Future<void> addCar(CarModel car) async {
+    await _db.collection('autos').add(car.toMap());
+  }
+
+  Future<void> updateCar(String id, Map<String, dynamic> data) async {
+    await _db.collection('autos').doc(id).update(data);
+  }
+
+  Future<void> deleteCar(String id) async {
+    await _db.collection('autos').doc(id).delete();
+  }
+
+  // 🔹 USUARIOS
+  Future<void> createUser(String id, UserModel user) async {
+    await _db.collection('users').doc(id).set(user.toMap());
+  }
+
+  Future<DocumentSnapshot> getUser(String id) async {
+    return await _db.collection('users').doc(id).get();
+  }
+
+  // 🔹 CITAS
+  Future<void> addAppointment(AppointmentModel app) async {
+    await _db.collection('pruebasManejo').add(app.toMap());
+  }
+}
+```
 
 ---
 
-## ✅ Streams en Tiempo Real
+# 🔐 4. AUTH SERVICE
 
-Actualización automática.
+## 📄 auth_service.dart
+
+```dart id="s2"
+import 'package:firebase_auth/firebase_auth.dart';
+
+class AuthService {
+  final FirebaseAuth _auth =
+      FirebaseAuth.instance;
+
+  Future<User?> login(
+      String email, String password) async {
+    final result = await _auth
+        .signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    return result.user;
+  }
+
+  Future<User?> register(
+      String email, String password) async {
+    final result = await _auth
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    return result.user;
+  }
+
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
+
+  Stream<User?> get user =>
+      _auth.authStateChanges();
+}
+```
 
 ---
 
-## ✅ Null Safety
+# 📦 5. STORAGE SERVICE
 
-Evita crashes.
+## 📄 storage_service.dart
+
+```dart id="s3"
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+
+class StorageService {
+  final FirebaseStorage _storage =
+      FirebaseStorage.instance;
+
+  Future<String> uploadImage(File file) async {
+    final ref = _storage
+        .ref()
+        .child('cars/${DateTime.now()}.jpg');
+
+    await ref.putFile(file);
+
+    return await ref.getDownloadURL();
+  }
+}
+```
 
 ---
 
-# 13. Resultado de Esta Fase
+# 🧠 RESULTADO DE ESTA FASE
 
-Ahora la app ya tiene:
+Ahora tu app tiene:
 
-✅ Arquitectura profesional
-✅ Modelos completos
-✅ Firebase Authentication
-✅ CRUD Firestore
-✅ Upload imágenes
-✅ Provider State Management
-✅ Streams en tiempo real
-✅ Base escalable
+## ✅ Arquitectura de datos profesional
+
+## ✅ Modelos completos reales
+
+## ✅ CRUD Firebase real
+
+## ✅ Auth funcional
+
+## ✅ Storage de imágenes
+
+## ✅ Base lista para UI
 
 ---
 # FASE 3 — AUTENTICACIÓN 🔐✨
@@ -4998,20 +4776,131 @@ Crear:
 
 ---
 
-# REGLA OBLIGATORIA
+# 🗄️ Modelo de Base de Datos — AutoElite App
 
-Después de terminar cada fase:
+## 📌 1. Tabla: Autos
 
-DETENTE COMPLETAMENTE.
+| Campo            | Tipo de dato | Descripción                               |
+| ---------------- | ------------ | ----------------------------------------- |
+| id               | String       | Identificador único del auto              |
+| marcaId          | String       | Relación con la tabla Marcas              |
+| modelo           | String       | Modelo del vehículo                       |
+| precio           | double       | Precio del auto                           |
+| año              | int          | Año de fabricación                        |
+| kilometraje      | int          | Kilometraje del auto                      |
+| transmision      | String       | Tipo de transmisión (Automática / Manual) |
+| combustible      | String       | Tipo de combustible                       |
+| descripcion      | String       | Descripción detallada                     |
+| imagenes         | List<String> | URLs de imágenes en Firebase Storage      |
+| disponible       | bool         | Estado del auto (disponible o vendido)    |
+| fechaPublicacion | Timestamp    | Fecha de publicación                      |
 
-NO continúes automáticamente.
+---
 
-Espera hasta que yo escriba EXACTAMENTE:
+## 📌 2. Tabla: Marcas
+
+| Campo       | Tipo de dato | Descripción                            |
+| ----------- | ------------ | -------------------------------------- |
+| id          | String       | Identificador único de la marca        |
+| nombreMarca | String       | Nombre de la marca (Toyota, BMW, etc.) |
+| logo        | String       | URL del logo de la marca               |
+| paisOrigen  | String       | País de origen de la marca             |
+
+---
+
+## 📌 3. Tabla: Empleados
+
+| Campo         | Tipo de dato | Descripción                      |
+| ------------- | ------------ | -------------------------------- |
+| id            | String       | Identificador único del empleado |
+| nombre        | String       | Nombre completo                  |
+| correo        | String       | Email del empleado               |
+| telefono      | String       | Número de contacto               |
+| rol           | String       | Rol (admin / vendedor)           |
+| fechaRegistro | Timestamp    | Fecha de registro                |
+
+---
+
+## 📌 4. Tabla: Ventas
+
+| Campo       | Tipo de dato | Descripción                             |
+| ----------- | ------------ | --------------------------------------- |
+| id          | String       | Identificador único de la venta         |
+| autoId      | String       | Relación con Autos                      |
+| clienteId   | String       | Usuario comprador                       |
+| empleadoId  | String       | Empleado que realizó la venta           |
+| precioVenta | double       | Precio final de la venta                |
+| fechaVenta  | Timestamp    | Fecha de la venta                       |
+| metodoPago  | String       | Método de pago (contado, crédito, etc.) |
+
+---
+
+## 📌 5. Tabla: Pruebas de Manejo
+
+| Campo     | Tipo de dato | Descripción                               |
+| --------- | ------------ | ----------------------------------------- |
+| id        | String       | Identificador único de la solicitud       |
+| autoId    | String       | Auto solicitado                           |
+| usuarioId | String       | Usuario que solicita la prueba            |
+| fecha     | DateTime     | Fecha seleccionada                        |
+| hora      | String       | Hora seleccionada                         |
+| estado    | String       | Estado (pendiente / aprobada / cancelada) |
+
+---
+
+## 📌 6. Tabla: Usuarios
+
+| Campo         | Tipo de dato | Descripción                 |
+| ------------- | ------------ | --------------------------- |
+| id            | String       | Identificador del usuario   |
+| nombre        | String       | Nombre del usuario          |
+| correo        | String       | Email                       |
+| rol           | String       | user / admin                |
+| fechaRegistro | Timestamp    | Fecha de creación de cuenta |
+
+---
+
+## 📌 7. Tabla: Favoritos
+
+| Campo  | Tipo de dato | Descripción                |
+| ------ | ------------ | -------------------------- |
+| id     | String       | Identificador del registro |
+| userId | String       | Usuario dueño de favoritos |
+| autoId | String       | Auto marcado como favorito |
+| fecha  | Timestamp    | Fecha de agregado          |
+
+---
+
+# 🔗 Relaciones entre tablas
+
+* **Autos → Marcas** (muchos autos pertenecen a una marca)
+* **Ventas → Autos** (una venta pertenece a un auto)
+* **Ventas → Empleados** (un empleado registra muchas ventas)
+* **PruebasManejo → Usuarios / Autos**
+* **Favoritos → Usuarios / Autos**
+
+---
+
+# 📊 Vista tipo diagrama (simplificado)
 
 ```plaintext
-CONTINUAR CON LA SIGUIENTE FASE
+USERS
+  │
+  ├── FAVORITOS
+  ├── PRUEBAS DE MANEJO
+  └── VENTAS
+
+AUTOS
+  │
+  ├── MARCAS
+  ├── VENTAS
+  └── PRUEBAS DE MANEJO
+
+EMPLEADOS
+  └── VENTAS
 ```
 
+---
 ---
 
 # FORMA DE RESPUESTA ESPERADA
