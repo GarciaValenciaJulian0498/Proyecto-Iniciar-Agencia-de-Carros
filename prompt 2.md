@@ -1,37 +1,438 @@
 # Prompt 2
-Rol: Actúa como un Desarrollador Senior Fullstack especializado en Dart/Flutter y Arquitecto de Soluciones en Cloud (Firebase).
+Aquí tienes una versión mucho más completa, profesional y específica de tu prompt, mejorada para que el modelo entienda que debe desarrollar TODA la aplicación funcional, incluyendo diseño UI/UX, navegación, pantallas completas y sistema de administrador.
 
-Misión: Ayúdame a construir una App de Agencia de Carros ("AutoElite App") para mi proyecto final de preparatoria. La aplicación debe ser profesional, escalable y utilizar las mejores prácticas de desarrollo móvil.
+---
 
-Especificaciones Técnicas:
+# Prompt Mejorado
 
-Backend: Firebase Auth (Correo/Contraseña), Cloud Firestore (Base de Datos NoSQL) y Firebase Storage (para fotos de los autos).
+Actúa como un **Desarrollador Senior Fullstack especializado en Dart/Flutter** y **Arquitecto de Soluciones Cloud con Firebase**.
 
-Manejo de Estado: Utiliza Provider o StatefulWidgets explicados a fondo.
+Tu misión es ayudarme a construir una aplicación móvil profesional llamada **“AutoElite App”**, enfocada en una agencia de carros moderna.
+La aplicación será mi proyecto final de preparatoria, por lo tanto debe tener calidad profesional, código limpio, arquitectura escalable y un diseño moderno minimalista.
 
-Arquitectura: Separación por carpetas: models, screens, services, y widgets.
+# Objetivo General
 
-Funcionalidades Requeridas:
+Desarrollar una app móvil completamente funcional en Flutter con Firebase como backend, incluyendo:
 
-Sistema de Usuarios: Login, Registro y Perfil de usuario.
+* Sistema de autenticación
+* Catálogo dinámico de autos
+* Sistema de favoritos
+* Panel de administrador
+* Gestión de citas para pruebas de manejo
+* Simulador de compra
+* Navegación completa
+* Diseño UI/UX moderno
+* Arquitectura profesional por carpetas
+* Código comentado y explicado
 
-CRUD de Inventario: Pantalla de administrador para Agregar, Editar y Eliminar autos (Marca, Modelo, Precio, Año, Imagen, Transmisión).
+---
 
-Buscador Inteligente: Filtrado por texto y categorías.
+# Tecnologías Obligatorias
 
-Interacción: Botón de "Solicitar Prueba de Manejo" (que guarde la cita en una colección de Firestore) y "Simulador de Compra".
+## Frontend
 
-Dinámica de Trabajo (Paso a Paso):
-No entregues todo de golpe. Divide el desarrollo en las siguientes fases y espera a que yo diga "CONTINUAR CON LA SIGUIENTE FASE" para proceder.
+* Flutter (Dart)
+* Material Design 3
+* Responsive Design
 
-FASE 1: Infraestructura y Setup. Configuración detallada en Firebase Console, habilitación de servicios, configuración del pubspec.yaml con todas las dependencias y el main.dart con la inicialización de Firebase.
+## Backend y Cloud
 
-FASE 2: Capa de Datos (Models & Services). Creación de los modelos de datos con métodos fromFirestore y toFirestore. Implementación de la clase FirebaseService que encapsule toda la lógica de Firebase (CRUD, Auth y Consultas).
+* Firebase Authentication
+* Cloud Firestore
+* Firebase Storage
 
-FASE 3: Flujo de Autenticación. Diseño y lógica de las pantallas de Login y Registro, incluyendo validación de correos y manejo de errores (pop-ups).
+## Manejo de Estado
 
-FASE 4: Catálogo y Detalles (UI). Implementación de una lista dinámica (ListView/GridView) con StreamBuilder para datos en tiempo real y una pantalla de detalles atractiva.
+Usar:
 
-FASE 5: Sistema CRUD y Gestión de Citas. Pantalla para que el administrador gestione el inventario y formularios para las pruebas de manejo.
+* Provider (preferentemente)
+  o
+* StatefulWidgets bien explicados
 
-Importante: Al final de cada fase, incluye una sección llamada "Conceptos para mi examen" donde me expliques brevemente qué es lo que acabamos de hacer (ej. ¿Qué es un Future? ¿Qué es un Stream?) para que pueda defenderme en mi presentación.
+---
+
+# Arquitectura del Proyecto
+
+La estructura debe organizarse profesionalmente usando carpetas como:
+
+```plaintext
+lib/
+│
+├── models/
+├── screens/
+├── services/
+├── widgets/
+├── providers/
+├── utils/
+├── themes/
+├── routes/
+└── main.dart
+```
+
+Debes explicar:
+
+* Para qué sirve cada carpeta
+* Qué responsabilidad tiene cada archivo
+* Buenas prácticas usadas
+
+---
+
+# Diseño UI/UX Obligatorio
+
+La aplicación debe tener un diseño:
+
+* Minimalista
+* Moderno
+* Elegante
+* Profesional
+* Similar a apps comerciales reales
+
+## Paleta de colores
+
+* Fondo principal: Rosa claro / rosa pastel
+* Color principal: Azul cian
+* Tarjetas blancas con sombras suaves
+* Botones modernos
+* Inputs estilizados
+* Bordes redondeados
+* Íconos modernos
+* Animaciones suaves
+
+## Diseño requerido para TODAS las pantallas
+
+Debes diseñar visualmente:
+
+* Layout completo
+* AppBars
+* BottomNavigationBar
+* Drawer/Menu lateral
+* Cards modernas
+* Formularios estilizados
+* Botones personalizados
+* Pantallas vacías elegantes
+* Loading indicators modernos
+
+---
+
+# Funcionalidades Obligatorias
+
+# 1. Sistema de Usuarios
+
+## Debe incluir:
+
+* Login
+* Registro
+* Recuperación de contraseña
+* Logout
+* Perfil de usuario
+
+## Validaciones:
+
+* Correos válidos
+* Contraseñas seguras
+* Manejo de errores con dialogs/snackbars
+
+---
+
+# 2. Sistema de Roles
+
+Debe existir:
+
+## Usuario normal
+
+Puede:
+
+* Ver autos
+* Buscar autos
+* Guardar favoritos
+* Solicitar prueba de manejo
+* Usar simulador de compra
+
+## Administrador
+
+Debe existir una cuenta admin.
+
+El administrador puede:
+
+* Agregar autos
+* Editar autos
+* Eliminar autos
+* Subir imágenes
+* Gestionar inventario
+* Ver solicitudes de pruebas de manejo
+
+El sistema debe detectar automáticamente si el usuario es admin mediante Firestore.
+
+---
+
+# 3. CRUD Completo de Inventario
+
+Cada auto debe tener:
+
+* Marca
+* Modelo
+* Precio
+* Año
+* Kilometraje
+* Transmisión
+* Tipo de combustible
+* Descripción
+* Imágenes
+* Disponible/Vendido
+
+---
+
+# 4. Catálogo Dinámico
+
+Implementar:
+
+* GridView o ListView moderno
+* StreamBuilder en tiempo real
+* Tarjetas atractivas
+* Imagen del auto
+* Precio destacado
+* Favoritos con ícono corazón
+
+---
+
+# 5. Pantalla de Detalles del Auto
+
+Debe incluir:
+
+* Galería de imágenes
+* Información completa
+* Botón de favoritos
+* Botón “Solicitar prueba de manejo”
+* Botón “Simular compra”
+* Diseño moderno premium
+
+---
+
+# 6. Sistema de Favoritos
+
+Crear:
+
+* Pantalla de favoritos
+* Guardado en Firestore
+* Eliminación de favoritos
+* Persistencia por usuario
+
+---
+
+# 7. Buscador Inteligente
+
+Implementar:
+
+* Búsqueda por texto
+* Filtros por:
+
+  * Marca
+  * Precio
+  * Año
+  * Transmisión
+  * Combustible
+
+---
+
+# 8. Sistema de Citas
+
+El usuario podrá:
+
+* Solicitar prueba de manejo
+* Elegir fecha
+* Guardar cita en Firestore
+
+Administrador:
+
+* Ver solicitudes
+* Gestionarlas
+
+---
+
+# 9. Simulador de Compra
+
+Debe calcular:
+
+* Enganche
+* Mensualidades
+* Intereses
+* Tiempo de financiamiento
+
+Con UI moderna y resultados dinámicos.
+
+---
+
+# Pantallas Obligatorias
+
+Debes crear TODOS los archivos completos para:
+
+## Autenticación
+
+* SplashScreen
+* LoginScreen
+* RegisterScreen
+* ForgotPasswordScreen
+
+## Navegación principal
+
+* HomeScreen
+* SearchScreen
+* FavoritesScreen
+* ProfileScreen
+
+## Autos
+
+* CarDetailsScreen
+* CarListScreen
+
+## Administrador
+
+* AdminDashboardScreen
+* AddEditCarScreen
+* ManageAppointmentsScreen
+
+## Extras
+
+* SimulatorScreen
+* AppointmentScreen
+
+---
+
+# Firebase
+
+Debes explicar detalladamente:
+
+## Firebase Console
+
+* Cómo crear el proyecto
+* Cómo conectar Flutter
+* Configurar Android/iOS
+* Habilitar Authentication
+* Configurar Firestore
+* Configurar reglas
+* Configurar Firebase Storage
+
+---
+
+# Reglas de Firestore
+
+Debes incluir:
+
+* Reglas de seguridad
+* Validaciones
+* Protección de admins
+
+---
+
+# Calidad del Código
+
+El código debe:
+
+* Estar comentado
+* Ser escalable
+* Ser reutilizable
+* Tener widgets separados
+* Usar buenas prácticas
+* Tener manejo de errores
+* Tener null safety
+
+---
+
+# Dinámica de Trabajo OBLIGATORIA
+
+NO entregues todo de golpe.
+
+Divide el desarrollo EXACTAMENTE en estas fases:
+
+# FASE 1 — Infraestructura y Setup
+
+* Configuración Firebase
+* pubspec.yaml
+* main.dart
+* Theme global
+* Rutas
+* Estructura de carpetas
+
+# FASE 2 — Models y Services
+
+* Modelos
+* fromFirestore
+* toFirestore
+* FirebaseService
+* AuthService
+* CRUD Firestore
+
+# FASE 3 — Autenticación
+
+* Login UI
+* Registro UI
+* Validaciones
+* Manejo de errores
+* Roles admin/user
+
+# FASE 4 — Catálogo y UI
+
+* HomeScreen
+* Cards de autos
+* StreamBuilder
+* Favoritos
+* Buscador
+* Pantalla de detalles
+
+# FASE 5 — CRUD Administrador
+
+* Dashboard admin
+* Agregar/editar/eliminar autos
+* Subida de imágenes
+* Gestión de citas
+
+# FASE 6 — Funciones Avanzadas
+
+* Simulador de compra
+* Animaciones
+* Optimización
+* Responsive UI
+* Mejoras finales
+
+---
+
+# Regla Importante
+
+Después de terminar cada fase:
+
+* Espera a que yo escriba:
+
+```plaintext
+CONTINUAR CON LA SIGUIENTE FASE
+```
+
+* No avances automáticamente.
+
+---
+
+# Forma de Respuesta Esperada
+
+En cada fase debes proporcionar:
+
+* Explicación técnica
+* Código completo
+* Estructura de archivos
+* Nombre de cada archivo
+* Dónde crear cada archivo
+* Código listo para copiar/pegar
+* Explicaciones simples para estudiante
+
+---
+
+# Objetivo Final
+
+El resultado debe parecer una aplicación real publicada en Play Store:
+
+* Profesional
+* Moderna
+* Elegante
+* Totalmente funcional
+* Escalable
+* Bien diseñada
+* Con Firebase integrado correctamente
+* Con experiencia de usuario premium.
