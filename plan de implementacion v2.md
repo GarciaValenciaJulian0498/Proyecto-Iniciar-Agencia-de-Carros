@@ -1,5 +1,4 @@
-# Plan de Implementacion Version 2
-# Fase 1
+# FASE 1 — Infraestructura y Setup
 
 ## AutoElite App 🚗✨
 
@@ -522,9 +521,9 @@ La app ya tendrá:
 ✅ Diseño minimalista elegante
 
 ---
+# FASE 2 — Models y Services 🚗🔥
 
-# Fase 2
-AutoElite App
+## AutoElite App
 
 En esta fase construiremos toda la lógica profesional del proyecto:
 
@@ -537,46 +536,70 @@ En esta fase construiremos toda la lógica profesional del proyecto:
 ✅ Manejo de errores
 ✅ Null Safety
 
-Objetivo de Esta Fase
+---
+
+# Objetivo de Esta Fase
 
 Crear toda la base lógica para:
 
-Usuarios
-Autos
-Favoritos
-Citas
-Firebase Authentication
-Firestore
-Estado global con Provider
-Estructura de Archivos
-📁 models/
+* Usuarios
+* Autos
+* Favoritos
+* Citas
+* Firebase Authentication
+* Firestore
+* Estado global con Provider
+
+---
+
+# Estructura de Archivos
+
+## 📁 models/
 
 Crear:
 
+```plaintext
 models/
 │
 ├── user_model.dart
 ├── car_model.dart
 └── appointment_model.dart
-📁 services/
+```
+
+---
+
+## 📁 services/
 
 Crear:
 
+```plaintext
 services/
 │
 ├── auth_service.dart
 ├── firestore_service.dart
 └── storage_service.dart
-📁 providers/
+```
+
+---
+
+## 📁 providers/
 
 Crear:
 
+```plaintext
 providers/
 │
 ├── auth_provider.dart
 └── car_provider.dart
-1. UserModel
-📄 lib/models/user_model.dart
+```
+
+---
+
+# 1. UserModel
+
+## 📄 lib/models/user_model.dart
+
+```dart
 class UserModel {
   final String uid;
   final String name;
@@ -608,19 +631,34 @@ class UserModel {
     };
   }
 }
-Explicación
-¿Qué hace?
+```
+
+---
+
+# Explicación
+
+## ¿Qué hace?
 
 Representa un usuario dentro de Firestore.
 
-¿Qué guarda?
-Campo	Descripción
-uid	ID del usuario
-name	Nombre
-email	Correo
-role	user/admin
-2. CarModel
-📄 lib/models/car_model.dart
+---
+
+## ¿Qué guarda?
+
+| Campo | Descripción    |
+| ----- | -------------- |
+| uid   | ID del usuario |
+| name  | Nombre         |
+| email | Correo         |
+| role  | user/admin     |
+
+---
+
+# 2. CarModel
+
+## 📄 lib/models/car_model.dart
+
+```dart
 class CarModel {
   final String id;
   final String brand;
@@ -680,8 +718,15 @@ class CarModel {
     };
   }
 }
-3. AppointmentModel
-📄 lib/models/appointment_model.dart
+```
+
+---
+
+# 3. AppointmentModel
+
+## 📄 lib/models/appointment_model.dart
+
+```dart
 class AppointmentModel {
   final String id;
   final String userId;
@@ -719,8 +764,15 @@ class AppointmentModel {
     };
   }
 }
-4. AuthService
-📄 lib/services/auth_service.dart
+```
+
+---
+
+# 4. AuthService
+
+## 📄 lib/services/auth_service.dart
+
+```dart
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -767,8 +819,13 @@ class AuthService {
     );
   }
 }
-Explicación
-Este servicio maneja:
+```
+
+---
+
+# Explicación
+
+## Este servicio maneja:
 
 ✅ Login
 ✅ Registro
@@ -776,8 +833,13 @@ Este servicio maneja:
 ✅ Recuperación de contraseña
 ✅ Sesión actual
 
-5. FirestoreService
-📄 lib/services/firestore_service.dart
+---
+
+# 5. FirestoreService
+
+## 📄 lib/services/firestore_service.dart
+
+```dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/car_model.dart';
@@ -859,8 +921,15 @@ class FirestoreService {
     );
   }
 }
-6. StorageService
-📄 lib/services/storage_service.dart
+```
+
+---
+
+# 6. StorageService
+
+## 📄 lib/services/storage_service.dart
+
+```dart
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -887,8 +956,15 @@ class StorageService {
     return await snapshot.ref.getDownloadURL();
   }
 }
-7. AuthProvider
-📄 lib/providers/auth_provider.dart
+```
+
+---
+
+# 7. AuthProvider
+
+## 📄 lib/providers/auth_provider.dart
+
+```dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -963,8 +1039,15 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-8. CarProvider
-📄 lib/providers/car_provider.dart
+```
+
+---
+
+# 8. CarProvider
+
+## 📄 lib/providers/car_provider.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import '../models/car_model.dart';
@@ -1008,11 +1091,17 @@ class CarProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-9. Configurar Providers en main.dart
-📄 lib/main.dart
+```
+
+---
+
+# 9. Configurar Providers en main.dart
+
+## 📄 lib/main.dart
 
 Reemplaza por:
 
+```dart
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -1060,26 +1149,44 @@ class AutoEliteApp extends StatelessWidget {
     );
   }
 }
-10. Crear Colecciones Firestore
+```
+
+---
+
+# 10. Crear Colecciones Firestore
 
 Ir a:
 
-Cloud Firestore Console
+[Cloud Firestore Console](https://console.firebase.google.com?utm_source=chatgpt.com)
 
 Crear:
 
+```plaintext
 users
 cars
 appointments
 favorites
-11. Estructura Firestore
-users
+```
+
+---
+
+# 11. Estructura Firestore
+
+## users
+
+```plaintext
 users/
    uid/
       name
       email
       role
-cars
+```
+
+---
+
+## cars
+
+```plaintext
 cars/
    carId/
       brand
@@ -1092,35 +1199,56 @@ cars/
       description
       images
       isAvailable
-appointments
+```
+
+---
+
+## appointments
+
+```plaintext
 appointments/
    appointmentId/
       userId
       carId
       date
       status
-12. Buenas Prácticas Implementadas
-✅ Modelos Tipados
+```
+
+---
+
+# 12. Buenas Prácticas Implementadas
+
+## ✅ Modelos Tipados
 
 Mayor seguridad y escalabilidad.
 
-✅ Provider Pattern
+---
+
+## ✅ Provider Pattern
 
 Separación lógica/UI.
 
-✅ Firebase Modular
+---
+
+## ✅ Firebase Modular
 
 Cada servicio tiene responsabilidad única.
 
-✅ Streams en Tiempo Real
+---
+
+## ✅ Streams en Tiempo Real
 
 Actualización automática.
 
-✅ Null Safety
+---
+
+## ✅ Null Safety
 
 Evita crashes.
 
-13. Resultado de Esta Fase
+---
+
+# 13. Resultado de Esta Fase
 
 Ahora la app ya tiene:
 
@@ -1133,8 +1261,10 @@ Ahora la app ya tiene:
 ✅ Streams en tiempo real
 ✅ Base escalable
 
-# Fase 4
-AutoElite App
+---
+# FASE 3 — AUTENTICACIÓN 🔐✨
+
+## AutoElite App
 
 En esta fase construiremos todo el sistema de autenticación profesional:
 
@@ -1148,39 +1278,58 @@ En esta fase construiremos todo el sistema de autenticación profesional:
 ✅ Snackbars premium
 ✅ UI moderna profesional
 
-Objetivo de Esta Fase
+---
+
+# Objetivo de Esta Fase
 
 Crear un sistema de autenticación real como apps comerciales.
 
 La experiencia será:
 
-Moderna
-Fluida
-Segura
-Escalable
-Elegante
-Estructura de Archivos
-📁 screens/auth/
+* Moderna
+* Fluida
+* Segura
+* Escalable
+* Elegante
+
+---
+
+# Estructura de Archivos
+
+## 📁 screens/auth/
 
 Crear:
 
+```plaintext
 auth/
 │
 ├── splash_screen.dart
 ├── login_screen.dart
 ├── register_screen.dart
 └── forgot_password_screen.dart
-📁 widgets/
+```
+
+---
+
+## 📁 widgets/
 
 Crear:
 
+```plaintext
 widgets/
 │
 ├── custom_textfield.dart
 ├── custom_button.dart
 └── loading_widget.dart
-1. Widget Input Reutilizable
-📄 lib/widgets/custom_textfield.dart
+```
+
+---
+
+# 1. Widget Input Reutilizable
+
+## 📄 lib/widgets/custom_textfield.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -1219,8 +1368,15 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
-2. Botón Premium
-📄 lib/widgets/custom_button.dart
+```
+
+---
+
+# 2. Botón Premium
+
+## 📄 lib/widgets/custom_button.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -1252,8 +1408,15 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
-3. Loading Widget
-📄 lib/widgets/loading_widget.dart
+```
+
+---
+
+# 3. Loading Widget
+
+## 📄 lib/widgets/loading_widget.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
@@ -1270,8 +1433,15 @@ class LoadingWidget extends StatelessWidget {
     );
   }
 }
-4. LoginScreen
-📄 lib/screens/auth/login_screen.dart
+```
+
+---
+
+# 4. LoginScreen
+
+## 📄 lib/screens/auth/login_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -1488,8 +1658,15 @@ class _LoginScreenState
     );
   }
 }
-5. RegisterScreen
-📄 lib/screens/auth/register_screen.dart
+```
+
+---
+
+# 5. RegisterScreen
+
+## 📄 lib/screens/auth/register_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -1630,8 +1807,15 @@ class _RegisterScreenState
     );
   }
 }
-6. ForgotPasswordScreen
-📄 lib/screens/auth/forgot_password_screen.dart
+```
+
+---
+
+# 6. ForgotPasswordScreen
+
+## 📄 lib/screens/auth/forgot_password_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import '../../services/auth_service.dart';
@@ -1732,8 +1916,15 @@ class _ForgotPasswordScreenState
     );
   }
 }
-7. SplashScreen Profesional
-📄 lib/screens/auth/splash_screen.dart
+```
+
+---
+
+# 7. SplashScreen Profesional
+
+## 📄 lib/screens/auth/splash_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -1819,8 +2010,15 @@ class _SplashScreenState
     );
   }
 }
-8. Crear HomeScreen Temporal
-📄 lib/screens/home/home_screen.dart
+```
+
+---
+
+# 8. Crear HomeScreen Temporal
+
+## 📄 lib/screens/home/home_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -1841,18 +2039,30 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-9. Configurar Authentication en Firebase
+```
+
+---
+
+# 9. Configurar Authentication en Firebase
 
 Ir a:
 
-Firebase Authentication Console
+[Firebase Authentication Console](https://console.firebase.google.com?utm_source=chatgpt.com)
 
-Activar:
+---
+
+## Activar:
+
+```plaintext
 Authentication
 → Sign-in Method
 → Email/Password
 → Enable
-10. Persistencia de Sesión
+```
+
+---
+
+# 10. Persistencia de Sesión
 
 Firebase Auth ya mantiene la sesión automáticamente.
 
@@ -1862,22 +2072,32 @@ Por eso:
 ✅ SplashScreen detecta usuario activo
 ✅ Navegación automática
 
-11. Roles Admin/User
-Firestore
+---
+
+# 11. Roles Admin/User
+
+## Firestore
 
 Colección:
 
+```plaintext
 users/
+```
 
 Ejemplo:
 
+```json
 {
   "uid": "123",
   "name": "Admin",
   "email": "admin@gmail.com",
   "role": "admin"
 }
-12. Validaciones Implementadas
+```
+
+---
+
+# 12. Validaciones Implementadas
 
 ✅ Campos vacíos
 ✅ Contraseña mínima
@@ -1885,28 +2105,41 @@ Ejemplo:
 ✅ Snackbars
 ✅ Loading states
 
-13. Buenas Prácticas Aplicadas
-✅ Widgets reutilizables
+---
+
+# 13. Buenas Prácticas Aplicadas
+
+## ✅ Widgets reutilizables
 
 Inputs y botones centralizados.
 
-✅ Provider Pattern
+---
+
+## ✅ Provider Pattern
 
 Estado desacoplado.
 
-✅ Null Safety
+---
+
+## ✅ Null Safety
 
 Mayor seguridad.
 
-✅ UX Moderna
+---
+
+## ✅ UX Moderna
 
 Inputs premium + navegación fluida.
 
-✅ Manejo de Errores
+---
+
+## ✅ Manejo de Errores
 
 Evita crashes.
 
-14. Resultado de Esta Fase
+---
+
+# 14. Resultado de Esta Fase
 
 Ahora la app ya tiene:
 
@@ -1920,14 +2153,18 @@ Ahora la app ya tiene:
 ✅ Providers funcionando
 ✅ Arquitectura limpia
 
-# Fase 4
-AutoElite App
+---
+# FASE 4 — CATÁLOGO Y UI 🚗✨
+
+## AutoElite App
 
 En esta fase construiremos toda la experiencia visual principal de la aplicación.
 
 La app comenzará a verse como una aplicación real de Play Store.
 
-Objetivos de Esta Fase
+---
+
+# Objetivos de Esta Fase
 
 Construir:
 
@@ -1944,11 +2181,15 @@ Construir:
 ✅ Empty States
 ✅ Skeleton Loading
 
-Estructura de Archivos
-📁 screens/
+---
+
+# Estructura de Archivos
+
+## 📁 screens/
 
 Crear:
 
+```plaintext
 screens/
 │
 ├── home/
@@ -1962,18 +2203,30 @@ screens/
 │
 └── details/
     └── car_details_screen.dart
-📁 widgets/
+```
+
+---
+
+## 📁 widgets/
 
 Crear:
 
+```plaintext
 widgets/
 │
 ├── car_card.dart
 ├── custom_drawer.dart
 ├── empty_widget.dart
 └── shimmer_loading.dart
-1. Card Premium de Autos
-📄 lib/widgets/car_card.dart
+```
+
+---
+
+# 1. Card Premium de Autos
+
+## 📄 lib/widgets/car_card.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import '../models/car_model.dart';
@@ -2095,8 +2348,15 @@ class CarCard extends StatelessWidget {
     );
   }
 }
-2. Drawer Moderno
-📄 lib/widgets/custom_drawer.dart
+```
+
+---
+
+# 2. Drawer Moderno
+
+## 📄 lib/widgets/custom_drawer.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -2155,8 +2415,15 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 }
-3. Empty Widget
-📄 lib/widgets/empty_widget.dart
+```
+
+---
+
+# 3. Empty Widget
+
+## 📄 lib/widgets/empty_widget.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 class EmptyWidget extends StatelessWidget {
@@ -2195,8 +2462,15 @@ class EmptyWidget extends StatelessWidget {
     );
   }
 }
-4. Shimmer Loading
-📄 lib/widgets/shimmer_loading.dart
+```
+
+---
+
+# 4. Shimmer Loading
+
+## 📄 lib/widgets/shimmer_loading.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import 'package:shimmer/shimmer.dart';
@@ -2231,8 +2505,15 @@ class ShimmerLoading extends StatelessWidget {
     );
   }
 }
-5. HomeScreen Profesional
-📄 lib/screens/home/home_screen.dart
+```
+
+---
+
+# 5. HomeScreen Profesional
+
+## 📄 lib/screens/home/home_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -2360,8 +2641,15 @@ class _HomeScreenState
     );
   }
 }
-6. Pantalla Detalles Premium
-📄 lib/screens/details/car_details_screen.dart
+```
+
+---
+
+# 6. Pantalla Detalles Premium
+
+## 📄 lib/screens/details/car_details_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 import '../../models/car_model.dart';
@@ -2521,8 +2809,15 @@ class CarDetailsScreen
     );
   }
 }
-7. SearchScreen
-📄 lib/screens/search/search_screen.dart
+```
+
+---
+
+# 7. SearchScreen
+
+## 📄 lib/screens/search/search_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -2553,8 +2848,15 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
-8. FavoritesScreen
-📄 lib/screens/favorites/favorites_screen.dart
+```
+
+---
+
+# 8. FavoritesScreen
+
+## 📄 lib/screens/favorites/favorites_screen.dart
+
+```dart
 import 'package:flutter/material.dart';
 
 class FavoritesScreen
@@ -2579,13 +2881,19 @@ class FavoritesScreen
     );
   }
 }
-9. Hero Animations
+```
+
+---
+
+# 9. Hero Animations
 
 Ya implementadas:
 
 ✅ Transición suave entre cards y detalles.
 
-10. StreamBuilder Tiempo Real
+---
+
+# 10. StreamBuilder Tiempo Real
 
 La HomeScreen ahora:
 
@@ -2593,7 +2901,9 @@ La HomeScreen ahora:
 ✅ Actualiza catálogo automáticamente
 ✅ Refleja cambios instantáneos
 
-11. Resultado Visual
+---
+
+# 11. Resultado Visual
 
 La app ahora ya parece una app comercial:
 
@@ -2606,31 +2916,44 @@ La app ahora ya parece una app comercial:
 ✅ Loading animations
 ✅ Empty states
 
-12. Buenas Prácticas Aplicadas
-✅ Widgets reutilizables
+---
+
+# 12. Buenas Prácticas Aplicadas
+
+## ✅ Widgets reutilizables
 
 Cards separadas.
 
-✅ Arquitectura modular
+---
+
+## ✅ Arquitectura modular
 
 Pantallas desacopladas.
 
-✅ Streams optimizados
+---
+
+## ✅ Streams optimizados
 
 Tiempo real.
 
-✅ UX moderna
+---
+
+## ✅ UX moderna
 
 Animaciones y layouts premium.
 
-# Fase 5
-AutoElite App
+---
+# FASE 5 — PANEL ADMIN 🛠️🚗
+
+## AutoElite App
 
 En esta fase construiremos el sistema administrativo completo.
 
 Ahora la aplicación tendrá funcionalidades reales de gestión profesional similares a una agencia automotriz real.
 
-Objetivos de Esta Fase
+---
+
+# Objetivos de Esta Fase
 
 Construir:
 
@@ -2645,29 +2968,44 @@ Construir:
 ✅ Formularios premium
 ✅ Validaciones avanzadas
 
-Estructura de Archivos
-📁 screens/admin/
+---
+
+# Estructura de Archivos
+
+## 📁 screens/admin/
 
 Crear:
 
+```plaintext id="6c1b5y"
 admin/
 │
 ├── admin_dashboard_screen.dart
 ├── add_edit_car_screen.dart
 └── manage_appointments_screen.dart
-📁 widgets/
+```
+
+---
+
+## 📁 widgets/
 
 Crear:
 
+```plaintext id="zg6v0h"
 widgets/
 │
 ├── admin_car_tile.dart
 └── custom_dialog.dart
-1. Validación de Roles Admin
-📄 lib/services/firestore_service.dart
+```
+
+---
+
+# 1. Validación de Roles Admin
+
+## 📄 lib/services/firestore_service.dart
 
 Agregar este método:
 
+```dart id="s6qk5e"
 Future<bool> isAdmin(String uid) async {
   final doc = await usersCollection
       .doc(uid)
@@ -2678,8 +3016,15 @@ Future<bool> isAdmin(String uid) async {
 
   return data['role'] == 'admin';
 }
-2. AdminDashboardScreen
-📄 lib/screens/admin/admin_dashboard_screen.dart
+```
+
+---
+
+# 2. AdminDashboardScreen
+
+## 📄 lib/screens/admin/admin_dashboard_screen.dart
+
+```dart id="tch11p"
 import 'package:flutter/material.dart';
 
 import '../../services/firestore_service.dart';
@@ -2800,8 +3145,15 @@ class AdminDashboardScreen
     );
   }
 }
-3. Pantalla Agregar/Editar Auto
-📄 lib/screens/admin/add_edit_car_screen.dart
+```
+
+---
+
+# 3. Pantalla Agregar/Editar Auto
+
+## 📄 lib/screens/admin/add_edit_car_screen.dart
+
+```dart id="ng4s5w"
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -3098,8 +3450,15 @@ class _AddEditCarScreenState
     );
   }
 }
-4. Gestionar Citas
-📄 lib/screens/admin/manage_appointments_screen.dart
+```
+
+---
+
+# 4. Gestionar Citas
+
+## 📄 lib/screens/admin/manage_appointments_screen.dart
+
+```dart id="k7j13e"
 import 'package:flutter/material.dart';
 
 class ManageAppointmentsScreen
@@ -3163,8 +3522,15 @@ class ManageAppointmentsScreen
     );
   }
 }
-5. Widget AdminCarTile
-📄 lib/widgets/admin_car_tile.dart
+```
+
+---
+
+# 5. Widget AdminCarTile
+
+## 📄 lib/widgets/admin_car_tile.dart
+
+```dart id="4pr86m"
 import 'package:flutter/material.dart';
 
 import '../models/car_model.dart';
@@ -3230,8 +3596,15 @@ class AdminCarTile
     );
   }
 }
-6. Dialog Reutilizable
-📄 lib/widgets/custom_dialog.dart
+```
+
+---
+
+# 6. Dialog Reutilizable
+
+## 📄 lib/widgets/custom_dialog.dart
+
+```dart id="2e79qn"
 import 'package:flutter/material.dart';
 
 class CustomDialog {
@@ -3263,8 +3636,15 @@ class CustomDialog {
     );
   }
 }
-7. Protección de Admin
-Ejemplo de Uso
+```
+
+---
+
+# 7. Protección de Admin
+
+## Ejemplo de Uso
+
+```dart id="m59tw0"
 final firestoreService =
     FirestoreService();
 
@@ -3276,7 +3656,11 @@ final isAdmin =
 if (isAdmin) {
   // Abrir panel admin
 }
-8. Firebase Storage
+```
+
+---
+
+# 8. Firebase Storage
 
 Ya implementado:
 
@@ -3284,14 +3668,18 @@ Ya implementado:
 ✅ URLs automáticas
 ✅ Integración Firestore
 
-9. Validaciones Implementadas
+---
+
+# 9. Validaciones Implementadas
 
 ✅ Imagen obligatoria
 ✅ Manejo errores
 ✅ Loading states
 ✅ Conversión segura datos
 
-10. Resultado Visual
+---
+
+# 10. Resultado Visual
 
 La app ya tiene:
 
@@ -3303,31 +3691,44 @@ La app ya tiene:
 ✅ Dashboard premium
 ✅ Formularios modernos
 
-11. Buenas Prácticas Aplicadas
-✅ Arquitectura Modular
+---
+
+# 11. Buenas Prácticas Aplicadas
+
+## ✅ Arquitectura Modular
 
 Pantallas separadas.
 
-✅ Firebase Escalable
+---
+
+## ✅ Firebase Escalable
 
 Storage + Firestore desacoplados.
 
-✅ Reutilización
+---
+
+## ✅ Reutilización
 
 Widgets reutilizables.
 
-✅ UX Profesional
+---
+
+## ✅ UX Profesional
 
 Loading states + feedback visual.
 
-# Fase 6
-AutoElite App
+---
+# FASE 6 — FUNCIONES AVANZADAS 🚀🔥
+
+## AutoElite App
 
 Llegamos a la fase final profesional.
 
 Ahora transformaremos la app en una aplicación premium lista para demostración escolar, portafolio y posible publicación.
 
-Objetivos de Esta Fase
+---
+
+# Objetivos de Esta Fase
 
 Construir:
 
@@ -3342,11 +3743,15 @@ Construir:
 ✅ Deploy Ready
 ✅ Experiencia premium
 
-Estructura Final
-📁 screens/
+---
+
+# Estructura Final
+
+## 📁 screens/
 
 Agregar:
 
+```plaintext id="l7p0v4"
 screens/
 │
 ├── simulator/
@@ -3354,8 +3759,15 @@ screens/
 │
 └── appointments/
     └── appointment_screen.dart
-1. Simulador Financiero 💰
-📄 lib/screens/simulator/simulator_screen.dart
+```
+
+---
+
+# 1. Simulador Financiero 💰
+
+## 📄 lib/screens/simulator/simulator_screen.dart
+
+```dart id="w3pryi"
 import 'package:flutter/material.dart';
 
 class SimulatorScreen
@@ -3521,36 +3933,47 @@ class _SimulatorScreenState
     );
   }
 }
-Fórmula Financiera Utilizada
+```
+
+---
+
+# Fórmula Financiera Utilizada
 
 El simulador usa:
 
-Mensualidad=
-m
-(P−E)+(P−E)⋅i
-	​
-
+\text{Mensualidad}=\frac{(P-E)+(P-E)\cdot i}{m}
 
 Donde:
 
-P = precio del auto
-E = enganche
-i = interés
-m = meses
-2. Sistema Favoritos ❤️
-Firestore
+* (P) = precio del auto
+* (E) = enganche
+* (i) = interés
+* (m) = meses
+
+---
+
+# 2. Sistema Favoritos ❤️
+
+## Firestore
 
 Crear colección:
 
+```plaintext id="ekg83h"
 favorites/
    userId/
       cars/
          carId
-Agregar Método Favoritos
-📄 lib/services/firestore_service.dart
+```
+
+---
+
+# Agregar Método Favoritos
+
+## 📄 lib/services/firestore_service.dart
 
 Agregar:
 
+```dart id="l1r3h1"
 Future<void> addFavorite({
   required String userId,
   required String carId,
@@ -3576,11 +3999,17 @@ Future<void> removeFavorite({
       .doc(carId)
       .delete();
 }
-3. Buscador Inteligente 🔎
-📄 lib/screens/search/search_screen.dart
+```
+
+---
+
+# 3. Buscador Inteligente 🔎
+
+## 📄 lib/screens/search/search_screen.dart
 
 Reemplazar por:
 
+```dart id="9k2j9t"
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -3688,8 +4117,15 @@ class _SearchScreenState
     );
   }
 }
-4. Sistema de Citas 📅
-📄 lib/screens/appointments/appointment_screen.dart
+```
+
+---
+
+# 4. Sistema de Citas 📅
+
+## 📄 lib/screens/appointments/appointment_screen.dart
+
+```dart id="0z9o87"
 import 'package:flutter/material.dart';
 
 class AppointmentScreen
@@ -3774,30 +4210,51 @@ class _AppointmentScreenState
     );
   }
 }
-5. Responsive Design 📱
-Ejemplo Recomendado
+```
+
+---
+
+# 5. Responsive Design 📱
+
+## Ejemplo Recomendado
+
+```dart id="0v7r5t"
 final width =
     MediaQuery.of(context).size.width;
 
 final isTablet = width > 600;
-6. Animaciones Premium ✨
-Agregar AnimateDo
+```
+
+---
+
+# 6. Animaciones Premium ✨
+
+## Agregar AnimateDo
 
 Ejemplo:
 
+```dart id="8feq3g"
 FadeInUp(
   duration:
       const Duration(milliseconds: 800),
 
   child: YourWidget(),
 )
-7. Firestore Security Rules 🔒
+```
+
+---
+
+# 7. Firestore Security Rules 🔒
 
 Ir a:
 
-Firestore Rules Console
+[Firestore Rules Console](https://console.firebase.google.com?utm_source=chatgpt.com)
 
-Reglas Profesionales
+---
+
+## Reglas Profesionales
+
+```javascript id="blc6dj"
 rules_version = '2';
 
 service cloud.firestore {
@@ -3838,12 +4295,17 @@ service cloud.firestore {
     }
   }
 }
-8. Reglas Firebase Storage 🔥
+```
+
+---
+
+# 8. Reglas Firebase Storage 🔥
 
 Ir a:
 
-Firebase Storage Rules
+[Firebase Storage Rules](https://console.firebase.google.com?utm_source=chatgpt.com)
 
+```javascript id="k31cl8"
 rules_version = '2';
 
 service firebase.storage {
@@ -3858,8 +4320,13 @@ service firebase.storage {
     }
   }
 }
-9. Optimización 🚀
-Recomendaciones
+```
+
+---
+
+# 9. Optimización 🚀
+
+## Recomendaciones
 
 ✅ Usar CachedNetworkImage
 ✅ Reducir rebuilds
@@ -3868,7 +4335,9 @@ Recomendaciones
 ✅ Lazy Loading
 ✅ Compresión imágenes
 
-10. Mejoras Premium Recomendadas
+---
+
+# 10. Mejoras Premium Recomendadas
 
 Puedes agregar después:
 
@@ -3880,12 +4349,27 @@ Puedes agregar después:
 ✅ Stripe Payments
 ✅ IA recomendadora autos
 
-11. Preparación Producción 📦
-Generar APK
+---
+
+# 11. Preparación Producción 📦
+
+## Generar APK
+
+```bash id="ehxfg1"
 flutter build apk --release
-Generar AppBundle
+```
+
+---
+
+## Generar AppBundle
+
+```bash id="67kspq"
 flutter build appbundle
-12. Resultado Final 🎉
+```
+
+---
+
+# 12. Resultado Final 🎉
 
 Ahora tienes una aplicación:
 
@@ -3902,7 +4386,11 @@ Ahora tienes una aplicación:
 ✅ Segura
 ✅ Lista para presentación
 
-Arquitectura Final
+---
+
+# Arquitectura Final
+
+```plaintext id="vwd5zb"
 lib/
 │
 ├── animations/
@@ -3916,16 +4404,25 @@ lib/
 ├── utils/
 ├── widgets/
 └── main.dart
-Tecnologías Finales Utilizadas
-Tecnología	Uso
-Flutter	Frontend
-Firebase Auth	Login
-Firestore	Base datos
-Firebase Storage	Imágenes
-Provider	Estado
-Material 3	UI
-AnimateDo	Animaciones
-Resultado Esperado Visualmente
+```
+
+---
+
+# Tecnologías Finales Utilizadas
+
+| Tecnología       | Uso         |
+| ---------------- | ----------- |
+| Flutter          | Frontend    |
+| Firebase Auth    | Login       |
+| Firestore        | Base datos  |
+| Firebase Storage | Imágenes    |
+| Provider         | Estado      |
+| Material 3       | UI          |
+| AnimateDo        | Animaciones |
+
+---
+
+# Resultado Esperado Visualmente
 
 Tu app ahora se verá como:
 
@@ -3934,3 +4431,36 @@ Tu app ahora se verá como:
 ✅ UI elegante
 ✅ UX fluida
 ✅ Diseño moderno minimalista
+
+---
+
+# Siguiente Nivel Recomendado
+
+Para convertirla en una app aún más profesional:
+
+* Clean Architecture
+* Repository Pattern
+* Riverpod
+* GoRouter
+* Firebase Cloud Functions
+* Push Notifications
+* CI/CD
+
+---
+
+# 🎓 CONSEJO PARA TU PRESENTACIÓN FINAL
+
+Cuando presentes tu proyecto:
+
+## Muestra:
+
+✅ Login funcionando
+✅ CRUD tiempo real
+✅ Firebase conectado
+✅ Subida imágenes
+✅ Favoritos
+✅ Simulador financiero
+✅ Panel admin
+✅ Responsive Design
+
+Eso hará que tu proyecto se vea MUY profesional para preparatoria.
