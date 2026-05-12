@@ -531,19 +531,247 @@ Crear:
 ---
 
 # REGLA OBLIGATORIA
+🗄️ MODELADO DE BASE DE DATOS (OBLIGATORIO)
 
-Después de terminar cada fase:
+Debes diseñar y explicar completamente la estructura de la base de datos utilizada en Firebase Firestore.
 
-DETENTE COMPLETAMENTE.
+La IA debe mostrar:
 
-NO continúes automáticamente.
+Colecciones
+Subcolecciones
+Relaciones
+Campos
+Tipos de datos
+Ejemplos de documentos
+IDs
+Relaciones entre entidades
+COLECCIONES/TABLAS OBLIGATORIAS
 
-Espera hasta que yo escriba EXACTAMENTE:
+La aplicación debe incluir y explicar las siguientes colecciones:
+
+Aquí tienes las **tablas en formato Markdown listo para GitHub (.md)**, bien estructuradas y profesionales para tu proyecto **AutoElite App**.
+
+---
+
+# 🗄️ Modelo de Base de Datos — AutoElite App
+
+## 📌 1. Tabla: Autos
+
+| Campo            | Tipo de dato | Descripción                               |
+| ---------------- | ------------ | ----------------------------------------- |
+| id               | String       | Identificador único del auto              |
+| marcaId          | String       | Relación con la tabla Marcas              |
+| modelo           | String       | Modelo del vehículo                       |
+| precio           | double       | Precio del auto                           |
+| año              | int          | Año de fabricación                        |
+| kilometraje      | int          | Kilometraje del auto                      |
+| transmision      | String       | Tipo de transmisión (Automática / Manual) |
+| combustible      | String       | Tipo de combustible                       |
+| descripcion      | String       | Descripción detallada                     |
+| imagenes         | List<String> | URLs de imágenes en Firebase Storage      |
+| disponible       | bool         | Estado del auto (disponible o vendido)    |
+| fechaPublicacion | Timestamp    | Fecha de publicación                      |
+
+---
+
+## 📌 2. Tabla: Marcas
+
+| Campo       | Tipo de dato | Descripción                            |
+| ----------- | ------------ | -------------------------------------- |
+| id          | String       | Identificador único de la marca        |
+| nombreMarca | String       | Nombre de la marca (Toyota, BMW, etc.) |
+| logo        | String       | URL del logo de la marca               |
+| paisOrigen  | String       | País de origen de la marca             |
+
+---
+
+## 📌 3. Tabla: Empleados
+
+| Campo         | Tipo de dato | Descripción                      |
+| ------------- | ------------ | -------------------------------- |
+| id            | String       | Identificador único del empleado |
+| nombre        | String       | Nombre completo                  |
+| correo        | String       | Email del empleado               |
+| telefono      | String       | Número de contacto               |
+| rol           | String       | Rol (admin / vendedor)           |
+| fechaRegistro | Timestamp    | Fecha de registro                |
+
+---
+
+## 📌 4. Tabla: Ventas
+
+| Campo       | Tipo de dato | Descripción                             |
+| ----------- | ------------ | --------------------------------------- |
+| id          | String       | Identificador único de la venta         |
+| autoId      | String       | Relación con Autos                      |
+| clienteId   | String       | Usuario comprador                       |
+| empleadoId  | String       | Empleado que realizó la venta           |
+| precioVenta | double       | Precio final de la venta                |
+| fechaVenta  | Timestamp    | Fecha de la venta                       |
+| metodoPago  | String       | Método de pago (contado, crédito, etc.) |
+
+---
+
+## 📌 5. Tabla: Pruebas de Manejo
+
+| Campo     | Tipo de dato | Descripción                               |
+| --------- | ------------ | ----------------------------------------- |
+| id        | String       | Identificador único de la solicitud       |
+| autoId    | String       | Auto solicitado                           |
+| usuarioId | String       | Usuario que solicita la prueba            |
+| fecha     | DateTime     | Fecha seleccionada                        |
+| hora      | String       | Hora seleccionada                         |
+| estado    | String       | Estado (pendiente / aprobada / cancelada) |
+
+---
+
+## 📌 6. Tabla: Usuarios
+
+| Campo         | Tipo de dato | Descripción                 |
+| ------------- | ------------ | --------------------------- |
+| id            | String       | Identificador del usuario   |
+| nombre        | String       | Nombre del usuario          |
+| correo        | String       | Email                       |
+| rol           | String       | user / admin                |
+| fechaRegistro | Timestamp    | Fecha de creación de cuenta |
+
+---
+
+## 📌 7. Tabla: Favoritos
+
+| Campo  | Tipo de dato | Descripción                |
+| ------ | ------------ | -------------------------- |
+| id     | String       | Identificador del registro |
+| userId | String       | Usuario dueño de favoritos |
+| autoId | String       | Auto marcado como favorito |
+| fecha  | Timestamp    | Fecha de agregado          |
+
+---
+
+# 🔗 Relaciones entre tablas
+
+* **Autos → Marcas** (muchos autos pertenecen a una marca)
+* **Ventas → Autos** (una venta pertenece a un auto)
+* **Ventas → Empleados** (un empleado registra muchas ventas)
+* **PruebasManejo → Usuarios / Autos**
+* **Favoritos → Usuarios / Autos**
+
+---
+
+# 📊 Vista tipo diagrama (simplificado)
 
 ```plaintext
-CONTINUAR CON LA SIGUIENTE FASE
+USERS
+  │
+  ├── FAVORITOS
+  ├── PRUEBAS DE MANEJO
+  └── VENTAS
+
+AUTOS
+  │
+  ├── MARCAS
+  ├── VENTAS
+  └── PRUEBAS DE MANEJO
+
+EMPLEADOS
+  └── VENTAS
 ```
 
+---
+
+
+Estados posibles:
+
+pendiente
+aprobada
+cancelada
+RELACIONES OBLIGATORIAS
+
+Debes explicar las relaciones entre colecciones:
+
+Un auto pertenece a una marca
+Un empleado puede registrar muchas ventas
+Un usuario puede solicitar muchas pruebas de manejo
+Un auto puede tener muchas pruebas de manejo
+Una venta pertenece a un auto y un empleado
+EJEMPLOS OBLIGATORIOS
+
+Debes mostrar:
+
+Ejemplo JSON de documentos Firestore
+Cómo se verían en Firebase
+Cómo consultar relaciones
+Cómo usar Streams con estas colecciones
+Cómo usar Provider con estos datos
+MODELOS OBLIGATORIOS
+
+Debes crear modelos Dart completos para:
+
+AutoModel
+MarcaModel
+EmpleadoModel
+VentaModel
+PruebaManejoModel
+
+Cada modelo debe incluir:
+
+fromMap
+toMap
+copyWith
+null safety
+comentarios
+CRUD OBLIGATORIO
+
+Debes implementar CRUD completo para:
+
+Autos
+Marcas
+Empleados
+Ventas
+PruebasManejo
+
+Incluyendo:
+
+Crear
+Leer
+Editar
+Eliminar
+Streams en tiempo real
+DASHBOARD ADMINISTRATIVO
+
+El panel admin debe mostrar:
+
+Total autos
+Total ventas
+Total empleados
+Total pruebas de manejo
+Autos disponibles
+Autos vendidos
+
+Usar:
+
+Cards modernas
+Gráficas simples
+Estadísticas visuales
+CONSULTAS AVANZADAS
+
+Debes mostrar ejemplos de:
+
+Filtrar autos por marca
+Buscar ventas por empleado
+Obtener pruebas de manejo pendientes
+Obtener autos disponibles
+Obtener ventas por fecha
+FIRESTORE BEST PRACTICES
+
+Debes explicar:
+
+Cuándo usar subcolecciones
+Cuándo usar referencias
+Optimización de lecturas
+Indexación
+Seguridad
+Escalabilidad
 ---
 
 # FORMA DE RESPUESTA ESPERADA
