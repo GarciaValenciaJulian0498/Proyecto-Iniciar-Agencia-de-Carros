@@ -15,3 +15,6 @@
 
 # Fase 6
 <img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/a2064c75-03a7-4376-8586-1f3efc223dea" />
+
+# Dependencias
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/3f58d344-8cc2-4ad2-96a6-d202d99ae708" />
